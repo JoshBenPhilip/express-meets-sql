@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { getPets } from "./src/pets.js";
+import { getPets, createPet } from "./src/pets.js";
 
 
 const app = express()
@@ -17,8 +17,22 @@ app.get("/pets", async (req, res) => {
     }
 })
 
+app.post("/pets", async (req, res) => {
+    try{
+        const newPet =req.body 
+        const result = await createPet(newPet)
+
+        res.status(201).send(result);
+    } catch (error) {
+        console.log(error)
+        res.status(500).send(error)
+    }
+    })
+
+
 const PORT =3000
 
 app.listen(PORT, () => {
     console.log(`We be listening on port http://localhost:${PORT}`)
 })
+
